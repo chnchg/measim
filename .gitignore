@@ -16,3 +16,12 @@ Makefile.in
 /install-sh
 /missing
 /stamp-h1
+
+# additional
+
+/ar-lib
+/build
+/config.guess
+/config.sub
+/ltmain.sh
+/m4

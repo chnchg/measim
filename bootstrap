@@ -1,0 +1,3 @@
+#!/bin/bash
+if [ ! -e m4 ]; then mkdir m4; fi
+autoreconf --symlink --install --force
