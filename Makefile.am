@@ -3,7 +3,7 @@ AUTOMAKE_OPTIONS = subdir-objects
 ACLOCAL_AMFLAGS = -I m4
 CLEANFILES = *~ */*~
 SUBDIRS = cst
-LDADD = libvol.a cst/libcst.a $(HDF5_LDFLAGS)
+LDADD = libvol.a cst/libcst.a $(PROG_LIBS)
 AM_CXXFLAGS = -I$(srcdir)/cst $(PROG_CFLAGS)
 include cst/make_main.am
 
