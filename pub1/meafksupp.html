@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Supplementary Materials: Propagation and synchronization of
+		reverberatory bursts in developing cultured networks</title>
+<script type="text/javascript"
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+<body>
+<h2>Supplementary Materials</h2>
+<h1 id="title">Propagation and synchronization of reverberatory bursts in developing
+cultured networks</h1>
+<div id="authors">Chih-Hsu Huang, Yu-Ting Huang, Chun-Chung Chen, and C. K. Chan</div>
+<h3>Model implementation</h3>
+<p>The computer model is implemented in C++ to produce the simulation
+results. To simplify the peripheral code for the platform and user interface
+specific details, we use the <a href="https://github.com/chnchg/cst">Common
+Simulation Tools</a> framework, which is also distributed with the package in
+the "cst" sub-directory. Data file of the system state and parameters is
+written in the <a href="https://support.hdfgroup.org/HDF5/">HDF5</a> format
+for portability. A GUI of the simulation with parameter adjustment interface
+is built to facilitate the exploration of the parameter space of the model.</p>
+<div>Source: <a href="https://github.com/chnchg/measim" target="_blank">https://github.com/chnchg/measim</a></div>
+<p>The model specific code is in the file "measim.cc" which implements the
+MEAsim C++ class. An Euler method is used for the numerical integration which
+involves the member functions "make_slope" and "step_forward" of the
+class. The ODEs defining the model are used to calculate the time derivatives
+of various variables in "make_slope" member function. The simulation time is
+incremented in the "step_forward" member function, where both the synchronous
+releases from presynaptic neurons' crossing spiking threshold and the
+asynchronous releases following the Poisson processes are implemented
+following the time increment.</p>
+<p>The network system presented in the paper is constructed with the "distexp"
+init module (C++ class: mod_init::DistExp) of the code provided in the file
+"mod_init_modules.cc" which defines various module classes for constructing
+the system.</p>
+
+<p>See README.md for build instruction.</p>
+
+<h3>Binaries</h3>
+<p>The build process produces the following binary executables:
+	<dl>
+		<dt>rvol</dt>
+		<dd>command line simulation run, use "./rvol --help" to see possible
+			command line arguments and options</dd>
+		<dt>vvol</dt>
+		<dd>GUI simulation run, see "GUI interface" below.</dd>
+		<dt>vvlt</dt>
+		<dd>threaded version of the GUI simulation run</dd>
+		<dt>vdmp</dt>
+		<dd>dump average values of various variables as it runs</dd>
+	</dl>
+</p>
+
+<h3>GUI interface</h3>
+<p>The GUI interface of the binary "vvol" (or "vvlt") contains windows showing
+the network of the system, the states of neurons (points with coordinates
+given by \(w\) and \(v\) variables), spiking raster plot with firing rate
+histogram, as well as the list of adjustable model parameters.</p>
+<a href="vvolshot.png"><img src="vvolshot.png" style="width:600px;"></a>
+
+<h3>Network of simulated system</h3>
+<p>The network of simulated system reported in the paper is consturcted with
+following procedure. First, \(N\) = 256 neurons are randomly placed on a unit
+square with the minimal spacing \(l_\min\) = \(\sqrt{0.5/N}\). Then, for any
+neuron pair \(\langle i, j\rangle\) with \(i\neq j\), the synapse
+\(i\rightarrow j\) is established with the probability \(\exp(-l_{i,j}/l_0)\)
+where \(l_{i,j}\) is the distance between the neurons and the characteristic
+distance \(l_0\) = \(\sqrt{1.5/N}\).</p>
+<a href="tpks2_net.svg"><img src="tpks2_net.svg" style="width:400px;"></a>
+<h3>Raster plots and histogram for a burst</h3>
+<h4>Experimental observation: Culture C, 33 DIV</h4>
+<img src="exp_raster.svg" style="width:320px;">
+<h4>Simulation (system file: "<a href="d_0X.h5" download>d_0X.h5</a>")</h4>
+<img src="sim_raster.svg" style="width:320px;">
+
+<h3>Animated video for activity propagation over a reverberatory burst</h3>
+<h4>Experimental observation: Culture C, 33 DIV</h4>
+<video src="culC33b22.mp4"></video>
+<h4>Simulation (system file: "<a href="d_0X.h5" download>d_0X.h5</a>")</h4>
+<video src="simb27.mp4"></video>
+<p>The system file can be open with any of the binary executables produced in
+the build process above.</p>
+<p>In the current paper, we fix most of the parameters to values similar to
+those found in the literature and explore a limit set of the parameters to
+find similar bursting morphology as our experimental observations. For
+example, variations on \(\tau_l\) and \(\tau_r\) changes the morphology of
+simulated bursts as see <a href="tpks2.html">here</a>.</p>
+<h3>Data processing</h3>
+<p>Both experimental and simulated spike data are processed with scripts
+written in Python3. And, most of the plots shown in the paper are produced
+with the <a href="http://matplotlib.org">matplotlib</a> module of Python3. The
+jupyter-notebook (Python3) for producing these figures is included as
+<a href="mixed_plot-w6.ipynb" download>mixed_plot-w6.ipynb</a>, which uses the included
+custom Python module <a href="spike_utils.py" download>spike_utils</a> for processing
+the spike data. The spike data for the presented experimental recording is
+included as <a href="C33.spk" download>C33.spk</a>. While, the simulated spike data can
+be generated with the command:</p>
+<code>
+build/rvol -page=0,dump_fire=1 --dry-run -R+300000 d_0X.h5 &gt; d_0X.spk
+</code>
+<p>The "age=0" parameter restarts the timer of the system; "dump_fire=1"
+instruct the run to output the spiking data as it runs; and the "--dry-run"
+option prevent the run from modifying the system state file, "d_0X.h5". Also
+needed is the simulated data for the system averages of various variables,
+which can be produced with the command:</p>
+<code>
+build/vdmp -page=0 --dry-run -R+300000 d_0X.h5 &gt; d_0X.dmp
+</code>
+<p>These commands produce 300-second worth of data similar to the experimental
+recordings.</p>
+</body>
+</html>
