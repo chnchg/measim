@@ -1,7 +1,7 @@
 # measim
 *Simulation of two-dimensional cultured neuronal network*
 
-This code implements a neuronal, electrophysiological model by [Volman et al](http://dx.doi.org/10.1088/1478-3975/4/2/003) on a 2D network to simulate a system of dissociated cultured neurons on a multi-electrode array. Please see the manuscript [arXiv:1610.05717](https://arxiv.org/abs/1610.05717) for details of the model and the corresonding experiments.
+This code implements a neuronal, electrophysiological model by [Volman et al](http://dx.doi.org/10.1088/1478-3975/4/2/003), which consists of [Morris--Lecar](https://dx.doi.org/10.1016%2FS0006-3495(81)84782-0) neurons and extended [Tsodyks--Markram](http://www.pnas.org/content/94/2/719) synapses, on a 2D network to simulate a system of dissociated cultured neurons on a multi-electrode array. Please see the manuscript [arXiv:1610.05717](https://arxiv.org/abs/1610.05717) for details of the model and the corresonding experiments. Supplementary files of the manuscript can be found in the [pub1](pub1/) subdirectory.
 
 ## Prerequite libraries (Debian packages, recommanded verion)
 Building from source package: HDF5 (libhdf5-dev, >=1.8.16)  
