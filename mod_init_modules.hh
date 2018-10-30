@@ -172,7 +172,7 @@ namespace mod_init {
 		void initialize(MEAsim * sys) override;
 		double make_axlen();
 		double make_growAng(){return rng.uniform() * 2 * pi;}
-	        virtual bool iden_connection(double r, double l, double xs, double ys, double xt, double yt, double vex, double vey);
+		virtual bool iden_connection(double r, double l, double xs, double ys, double xt, double yt, double vex, double vey);
 		// parameters
 		double dradf; // factor for radius of dendrite region, radius = dradf times 1/sqrt(nnum)
 		double axlenf; // factor for mean length of axon, length = axlenf times 1/sqrt(nnum)

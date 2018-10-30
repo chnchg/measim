@@ -780,17 +780,10 @@ bool mod_init::AxonSearch::iden_connection(double r, double l, double xs, double
 {
 	double lnn = sqrt(pow(xt-xs,2)+pow(yt-ys,2)); // distance between two neurons
 	double alpha1 = acos(((xt-xs)*vex+(yt-ys)*vey)/l/lnn);
-	if (alpha1 >= pi/2)
-	  if (lnn < r) return true;
-	  else return false;
-	else{
-	        if (lnn * sin(alpha1) > r) return false;
-	        else{
-	               if (lnn * cos(alpha1) <= l) return true;
-	               else if (sqrt(pow(lnn * cos(alpha1)-l,2)+pow(lnn * sin(alpha1),2)) < r) return true;
-	        }
-	}
-
+	if (alpha1 >= pi/2) return lnn < r;
+	if (lnn * sin(alpha1) > r) return false;
+	if (lnn * cos(alpha1) <= l) return true;
+	return sqrt(pow(lnn * cos(alpha1)-l,2)+pow(lnn * sin(alpha1),2)) < r;
 }
 
 void mod_init::AxonSearch::initialize(MEAsim * sys)
