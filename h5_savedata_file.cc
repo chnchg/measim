@@ -33,13 +33,13 @@ void H5SimSaveFile::initH5simSaveFile()
 void H5SimSaveFile::close()
 {
 	if (is_open){
+		is_open = false;
 		H5Sclose(mpotS);
 		H5Sclose(fstampS);
 		H5Dclose(mpotD);
 		H5Dclose(fstampD);
 		H5Gclose(group);
 		H5Fclose(file);
-		is_open = false;
 	}
 }
 
@@ -53,7 +53,6 @@ void H5SimSaveFile::open_save(std::string path)
 		throw;
 	}
 	group = H5Gopen(file, path.c_str(), H5P_DEFAULT);
-	is_open = true;	
 
 	hsize_t dimv[2] = {LENGTH,nnum};
 	hsize_t dimf[] = {LENGTH};
@@ -81,6 +80,8 @@ void H5SimSaveFile::open_save(std::string path)
 	fstampD = H5Dcreate2(file, "/fstamp", fstampT, fstampS, H5P_DEFAULT, fstampP, H5P_DEFAULT);
 	H5Pclose(fstampP);
 	H5Tclose(fstampT);
+
+	is_open = true;
 }
 
 void H5SimSaveFile::done_save()
